@@ -2,44 +2,44 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-const journalSchema = new mongoose.Schema({
+const journalEntrySchema = new mongoose.Schema({
   name: String,
   content: String,
   date: String,
 });
 
-const Journal = mongoose.model('Journal', journalSchema);
+const JournalEntryEntry = mongoose.model('JournalEntryEntry', journalEntrySchema);
 
 //No idea but creates journal entry
-router.post('/api/journals', async (req, res) => {
-  const journal = new Journal({
+router.post('/api/entries', async (req, res) => {
+  const entry = new JournalEntryEntry({
     name: req.body.name,
     content: req.body.content,
     date: req.body.date,
   });
   try {
-    await journal.save();
-    res.send(journal);
+    await entry.save();
+    res.send(entry);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-
-router.get('/api/journals', async (req, res) => {
+//get all journalentries
+router.get('/api/entries', async (req, res) => {
   try {
-    let journals = await Journal.find();
-    res.send(journals);
+    let entries = await JournalEntry.find();
+    res.send(entries);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-router.delete('/api/journals/:id', async (req, res) => {
+router.delete('/api/entries/:id', async (req, res) => {
   try {
-    await Journal.deleteOne({
+    await JournalEntry.deleteOne({
       _id: req.params.id
     });
     res.sendStatus(200);
@@ -49,15 +49,16 @@ router.delete('/api/journals/:id', async (req, res) => {
   }
 });
 
-router.put('api/journals/:id', async (req, res) => {
+//edit an entry
+router.put('api/entries/:id', async (req, res) => {
   try {
-    let journal = await Journal.findOne({
+    let entry = await JournalEntry.findOne({
       _id: req.params.id,
     });
-    journal.name = req.body.name
-    journal.content = req.body.description
-    journal.data = req.body.date
-    journal.save()
+    entry.name = req.body.name
+    entry.content = req.body.description
+    entry.data = req.body.date
+    entry.save()
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -66,6 +67,6 @@ router.put('api/journals/:id', async (req, res) => {
 });
 
 module.exports = {
-  model: Journal,
+  model: JournalEntry,
   routes: router,
 }

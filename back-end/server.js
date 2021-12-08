@@ -16,8 +16,8 @@ mongoose.connect('mongodb://localhost:27017/cloudstorage', {
 });
 
 //import journals:
-const journals = require("./journals.js");
-app.use("/api/journals", journals.routes);
+const journalEntries = require("./journalEntries.js");
+app.use("/api/entries", journalEntries.routes);
 
 //import photos:
 const photos = require("./photos.js");
