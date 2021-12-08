@@ -1,48 +1,75 @@
 <template>
   <div>
     <div class='form'>
-      <input v-model='title' placeholder='Name'>
+      <input v-model='name' placeholder='Name'>
+      <p>{{name}}</p> <!--Testing-->
       <br/>
       <label>Name</label>
       <p></p>
-      <textarea v-model='description' placeholder='Journal Entry' rows='3' cols='70'></textarea>
+      <textarea v-model='content' placeholder='Journal Entry' rows='3' cols='70'></textarea>
+      <p>{{content}}</p> <!--Testing-->
       <p></p>
-      <button @click='upload'>Upload</button>
+      <button @click='upload' v-on:click='getDate()'>Upload</button>
     </div>
-    <div class='upload' v-if='addItem'>
-      <h2>{{addItem.title}}</h2>
-      <img :src='addItem.path'/>
+     
+    <br/>
+
+    <div class='journalContainer'>  <!--Make a v-for to iterate through journals array-->
+      <JournalEntry :name='name' :content='content' :date='date'/>
     </div>
+
   </div>
+
+
+
 </template>
 
 <script>
-import axios from 'axios';
+//import axios from 'axios';
 import JournalEntry from '../components/JournalEntry.vue';
 
 export default {
   name: 'Journal',
-  components: {
-    JournalEntry
-  },
-  methods: {
-    async upload() {
-      try {
-        const formData = new FormData();
-        formData.append('photo', this.file, this.file.name);
-        formData.append('title', this.title);
-        formData.append('description', this.description);
-        await axios.post("/api/photos", formData);
-        this.file = null;
-        this.url = "";
-        this.title = "";
-        this.description = "";
-        this.$emit('uploadFinished');
-      } catch (error) {
-        this.error = "Error: " + error.response.data.message;
-      }
+
+  data() {
+    return {
+      journals: [],
+      name: '',
+      content: '',
+      date: '',
     }
+  },
+
+  components: {
+    JournalEntry,
+  },
+
+  methods: {
+
+    getDate() {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      today = mm + '/' + dd + '/' + yyyy;
+      this.date = today;
+    },
+
+    async upload() {
+      
+    }
+    
   }
 }
 </script>
 
+
+<style scoped>
+
+.journalContainer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border: 1px solid purple;
+}
+</style>
