@@ -15,3 +15,34 @@
     </div>
   </div>
 </template>
+
+<script>
+import axios from 'axios';
+import JournalEntry from '../components/JournalEntry.vue';
+
+export default {
+  name: 'Journal',
+  components: {
+    JournalEntry
+  },
+  methods: {
+    async upload() {
+      try {
+        const formData = new FormData();
+        formData.append('photo', this.file, this.file.name);
+        formData.append('title', this.title);
+        formData.append('description', this.description);
+        await axios.post("/api/photos", formData);
+        this.file = null;
+        this.url = "";
+        this.title = "";
+        this.description = "";
+        this.$emit('uploadFinished');
+      } catch (error) {
+        this.error = "Error: " + error.response.data.message;
+      }
+    }
+  }
+}
+</script>
+
