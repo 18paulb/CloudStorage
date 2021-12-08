@@ -1,14 +1,31 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <h1>Welcome To Your Cloud Storage!</h1>
+    <h4>We provide a variety of services including uploading and storing photos and journal entries!</h4>
+
+    <h1>Examples:</h1>
+
+    <div>
+      
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+//THIS PAGE HAS PHOTO EXAMPLES
 
 export default {
   name: "Home",
 };
 </script>
+
+
+
+
+<style scoped>
+
+
+
+
+</style>
