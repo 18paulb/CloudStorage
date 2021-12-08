@@ -66,6 +66,7 @@ router.put('api/entries/:id', async (req, res) => {
   }
 });
 
+
 module.exports = {
   model: JournalEntry,
   routes: router,
