@@ -5,9 +5,7 @@
 
     <h1>Examples:</h1>
 
-    <div>
-      
-    </div>
+
   </div>
 </template>
 
