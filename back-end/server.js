@@ -29,7 +29,7 @@ const Journal = mongoose.mode('Journal', journalSchema);
 
 
 //No idea but creates journal entry
-app.post('/api/items', async (req, res) => {
+app.post('/api/journals', async (req, res) => {
   const journal = new Journal({
     name: req.body.name,
     content: req.body.content,
@@ -45,7 +45,7 @@ app.post('/api/items', async (req, res) => {
 })
 
 
-app.get('/api/items', async (req, res) => {
+app.get('/api/journals', async (req, res) => {
   try {
     let journals = await Journal.find();
     res.send(journals);
@@ -55,7 +55,7 @@ app.get('/api/items', async (req, res) => {
   }
 })
 
-app.delete('/api/items/:id', async (req, res) => {
+app.delete('/api/journals/:id', async (req, res) => {
   try {
     await Journal.deleteOne({
       _id: req.params.id
@@ -68,7 +68,7 @@ app.delete('/api/items/:id', async (req, res) => {
 })
 
 
-app.put('api/items/:id', async (req, res) => {
+app.put('api/journals/:id', async (req, res) => {
   try {
     let journal = await Journal.findOne({
       _id: req.params.id,
