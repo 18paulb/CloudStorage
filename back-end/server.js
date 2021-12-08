@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 // Configure multer so that it will upload to '../front-end/public/images'
 const multer = require('multer')
+
 const upload = multer({
   dest: '../front-end/public/images/',
   limits: {
