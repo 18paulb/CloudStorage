@@ -26,10 +26,14 @@
           <button class="function-button" @click="edit(photo)">EDIT PHOTO</button>
         </div>
         <div v-if="photo.editing" class="edit-submit">
-          <form>
-            <input type="text" placeholder="New Title" v-model="photo.title">
-            <textarea placeholder="New Description" v-model="photo.description"></textarea>
-          </form>
+          <div class="edit-form-box">
+            <form>
+              <input type="text" placeholder="New Title" v-model="photo.title" class="edit-title">
+            </form>
+            <div>
+              <textarea placeholder="New Description" v-model="photo.description" class="edit-desc"></textarea>
+            </div>
+          </div>
           <div class="changes">
             <button class="function-button" @click="editPhoto(photo)">SUBMIT CHANGES</button>
             <button class="function-button" @click="cancelEdit()">CANCEL CHANGES</button>
@@ -148,7 +152,7 @@ export default {
 }
 
 .function-button {
-  width: 100px;
+  width: 150px;
   padding: 12px;
   margin-left: 30px;
   margin-right: 30px;
@@ -162,11 +166,20 @@ export default {
   align-content: center;
 }
 
-.edit-box {
+.edit-form-box {
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: center;
+}
+
+.edit-desc {
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+.edit-title {
+  margin-bottom: 20px;
 }
 
 input {
@@ -175,6 +188,5 @@ input {
 
 textarea {
   padding: 10px;
-  width: 40%;
 }
 </style>
