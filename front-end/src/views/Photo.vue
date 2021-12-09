@@ -6,10 +6,10 @@
       </form>
       <br/>
       <label>Photo Title</label>
-      <p>{{title}}</p> <!--Testing-->
+      <p></p>
 
       <textarea v-model='description' placeholder='Description' rows='2' cols='50'></textarea>
-      <p>{{description}}</p> <!--Testing-->
+      <p></p>
       <input type='file' name='photo' @change='fileChanged'>
       <button @click='upload'>Upload</button>
     </div>
@@ -21,7 +21,10 @@
     <div class="photo-container">
       <div v-for="photo in photos" :key="photo.id" class="photoshow">
         <photo-entry :photo="photo"/>
-        <button @click="deletePhoto(photo)">DELETE PHOTO</button>
+        <div class="buttons">
+          <button class="function-button" @click="deletePhoto(photo)">DELETE PHOTO</button>
+          <button class="function-button" @click="editPhoto(photo)">EDIT PHOTO</button>
+        </div>
       </div>
     </div>
   </div>
@@ -61,6 +64,7 @@ export default {
         formData.append('title', this.title);
         formData.append('description', this.description);
         await axios.post('api/photos', formData);
+        this.getPhotos();
       } catch (error) {
         console.log(error);
       }
@@ -100,15 +104,23 @@ export default {
 .photo-container {
   display: flex;
   width: 100%;
+  flex-direction: column;
   align-content: center;
   justify-content: center;
 }
 
 .photoshow {
   display: flex;
-  width: 60%;
+  width: 100%;
   flex-direction: column;
   align-content: center;
   justify-content: center;
+}
+
+.function-button {
+  width: fit-content;
+  padding: 12px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 </style>

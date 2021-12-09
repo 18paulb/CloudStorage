@@ -113,7 +113,6 @@ app.post("/api/photos", upload.single('photo'), async (req, res) => {
     return res.status(400).send({
       message: "Must upload a file."
     });
-  console.log(req.body.description, " was received from web");
   const photo = new Photo({
     path: "/images/" + req.file.filename,
     title: req.body.title,
