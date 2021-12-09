@@ -58,7 +58,6 @@ app.post('/api/entries', async (req, res) => {
     });
     await entry.save();
     res.send(entry);
-    console.log("HHHAHAH");
 
   } catch (error) {
     console.log(error);
