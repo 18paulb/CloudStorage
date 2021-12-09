@@ -11,11 +11,21 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+const multer = require('multer');
+const { application } = require('express');
+const upload = multer({
+  dest: '../front-end/public/images/',
+  limits: {
+    fileSize: 50000000
+  }
+});
+
 mongoose.connect('mongodb://localhost:27017/cloudstorage', {
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
 
+//// JOURNAL ENTRY SECTION ////
 const journalEntrySchema = new mongoose.Schema({
   name: String,
   content: String,
@@ -81,6 +91,67 @@ app.put('/api/entries/:id', async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+//// PHOTO SECTION ////
+const photoSchema = new mongoose.Schema({
+  path: String,
+  title: String,
+  description: String,
+  created: {
+    type: Date,
+    default: Date.now
+  },
+});
+
+const Photo = mongoose.model('Photo', photoSchema);
+
+// upload photo
+app.post("/", upload.single('photo'), async (req, res) => {
+  // check parameters
+  if (!req.file) {
+    return res.status(400).send({
+      message: "Must upload a file."
+    });
+  }
+  const photo = new Photo({
+    path: "/images/" + req.file.filename,
+    title: req.body.title,
+    description: req.body.description
+  });
+  try {
+    await photo.save();
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// get all photos
+app.get("/", async (req, res) => {
+  try {
+    let photos = await Photo.find().sort({
+      created: -1
+    })
+    return res.send(photos);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+app.get('/:id', async (req, res) => {
+  try {
+    let photo = await Photo.findById({
+      _id: req.params.id
+    })
+    return res.send(photo);
+  } catch(error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 
 /*
 
