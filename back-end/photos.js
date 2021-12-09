@@ -3,7 +3,8 @@ const express = require("express");
 const router = express.Router();
 
 // Configure multer so that it will upload to '/public/images'
-const multer = require('multer')
+const multer = require('multer');
+const { application } = require('express');
 const upload = multer({
   dest: '../front-end/public/images/',
   limits: {
@@ -69,6 +70,24 @@ router.get('/:id', async (req, res) => {
     return res.sendStatus(500);
   }
 });
+
+
+
+//Testing Delete
+/*
+app.delete('/api/photos/:id', async (req, res) => {
+  try {
+    await Photo.deleteOne({
+      _id: req.params.id
+    });
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500)
+  }
+})
+*/
+
 
 module.exports = {
   model: Photo,

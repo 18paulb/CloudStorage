@@ -60,7 +60,20 @@ export default {
       } catch (error) {
         this.error = "Error: " + error.response.data.message;
       }
-    }
+    },
+
+
+    //Testing
+
+    async delete(photo) {
+      try {
+        await axios.delete('/api/photos/' + photo._id);
+        return true;
+      } catch (error) {
+          console.log(error);
+        }
+    },
+
   },
 
 

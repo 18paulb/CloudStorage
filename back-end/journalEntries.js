@@ -12,14 +12,16 @@ const JournalEntryEntry = mongoose.model('JournalEntryEntry', journalEntrySchema
 
 //No idea but creates journal entry
 router.post('/api/entries', async (req, res) => {
-  const entry = new JournalEntryEntry({
+  try {
+    let entry = new JournalEntryEntry({
     name: req.body.name,
     content: req.body.content,
     date: req.body.date,
-  });
-  try {
+    });
+
     await entry.save();
     res.send(entry);
+
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -50,7 +52,7 @@ router.delete('/api/entries/:id', async (req, res) => {
 });
 
 //edit an entry
-router.put('api/entries/:id', async (req, res) => {
+router.put('/api/entries/:id', async (req, res) => {
   try {
     let entry = await JournalEntry.findOne({
       _id: req.params.id,
@@ -68,6 +70,6 @@ router.put('api/entries/:id', async (req, res) => {
 
 
 module.exports = {
-  model: JournalEntry,
+  model: JournalEntryEntry,
   routes: router,
 }
