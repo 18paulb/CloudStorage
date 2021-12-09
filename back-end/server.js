@@ -128,20 +128,26 @@ app.put('/api/entries/:id', async (req, res) => {
   }
 });*/
 
-app.post('/api/photos', upload.single('photo'), async (req, res) => {
-  console.log("trying to post a photo");
+app.post("/api/photos", upload.single('photo'), async (req, res) => {
+  // check parameters
+  if (!req.file)
+    return res.status(400).send({
+      message: "Must upload a file."
+    });
+  console.log(req.body.description, " was received from web");
   const photo = new Photo({
     path: "/images/" + req.file.filename,
     title: req.body.title,
     description: req.body.description,
   });
-  // Just a safety check
-  if (!req.file) {
-    return res.sendStatus(400);
+  console.log(photo.description);
+  try {
+    await photo.save();
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
   }
-  res.send({
-    path: "/images/" + req.file.filename
-  });
 });
 
 // get all photos

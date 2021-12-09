@@ -18,13 +18,14 @@
       <h2>{{addItem.title}}</h2>
       <img :src='addItem.path'/>
     </div>
-
+    <photo-entry :photos="photos"/>
   </div>
 
 </template>
 
 <script>
 import axios from 'axios'
+import PhotoEntry from '../components/PhotoEntry.vue'
 
 export default {
 
@@ -35,36 +36,29 @@ export default {
       file: null,
       url: "",
       addItem: null,
+      photos: [],
     }
   },
-
+  components: {
+    PhotoEntry
+  },
+  created() {
+    this.getPhotos();
+  },
   methods: {
-
     fileChanged(event) {
       this.file = event.target.files[0]
     },
-
-
     async upload() {
       try {
         const formData = new FormData();
-        formData.append('photo', this.file, this.file.name);
-        formData.append('title', this.title);
-        formData.append('description', this.description);
-        await axios.post("/api/photos", formData);
-        this.file = null;
-        this.url = "";
-        this.title = "";
-        this.description = "";
-        this.$emit('uploadFinished');
+        console.log(this.description, " is the current description");
+        formData.append('photo', this.file, this.description, this.file.name);
+        await axios.post('api/photos', formData);
       } catch (error) {
-        this.error = "Error: " + error.response.data.message;
+        console.log(error);
       }
     },
-
-
-    //Testing
-
     async delete(photo) {
       try {
         await axios.delete('/api/photos/' + photo._id);
@@ -73,9 +67,14 @@ export default {
           console.log(error);
         }
     },
-
+    async getPhotos() {
+      try {
+        let response = await axios.get("/api/photos");
+        this.photos = response.data;
+      } catch(error) {
+        console.log(error);
+      }
+    }
   },
-
-
 }
 </script>
