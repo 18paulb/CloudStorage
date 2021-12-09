@@ -8,13 +8,16 @@
       <textarea v-model='content' placeholder='Journal Entry' rows='3' cols='70'></textarea>
       <p></p>
       <button v-on:click='getDate()' @click='upload()'>Upload</button>
-      <button v-on:clicl='getAllJournals()'>Get</button>
+      <button v-on:click='getAllJournals()'>Get</button>
     </div>
 
     <br/>
 
-    <div class='journalContainer' v-for='journal in journals' :key='journal.content'>
+    <div class='journalContainer' v-for='journal in journals' :key='journal._id'>
       <JournalEntry :name='journal.name' :content='journal.content' :date='journal.date'/>
+      <p></p>
+      <button v-on:click='deleteJournal(journal)' @click='getAllJournals()'>Delete</button>
+      <button v-on:click='edit(journal)' @click='getAllJournals()'>Edit</button>
     </div>
 
 
@@ -40,6 +43,10 @@ export default {
       findItem: null,
       currEntry: null,
     }
+  },
+
+  created() {
+    this.getAllJournals();
   },
 
   components: {
@@ -77,7 +84,7 @@ export default {
       this.content = ''
       this.date = ''
 
-      //this.journals = this.getAllJournals()
+      this.journals = this.getAllJournals()
     },
 
 
@@ -95,9 +102,18 @@ export default {
       }
     },
 
-    async delete(item) {
+    async deleteJournal(item) {
       try {
         await axios.delete('/api/entries/' + item._id);
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async edit(item) {
+      try {
+        await axios.put('/api/entries/' + item._id)
+
       } catch (error) {
         console.log(error)
       }

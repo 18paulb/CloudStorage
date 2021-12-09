@@ -2,13 +2,13 @@
   <div>
     <div class='reviewContainer'>
       <div class='name'>
-        <p>Name: {{name}}</p>
+        <p>{{name}}</p>
       </div>
       <div class='content'>
-        <p>Content: {{content}}</p>
+        <p>{{content}}</p>
       </div>
       <div class='date'>
-        <p>Date: {{date}}</p>
+        <p>{{date}}</p>
       </div>
     </div>
   </div>
@@ -49,8 +49,9 @@ export default {
 }
 
 .content {
-  display: flex;
+  display: inline-block;
   border: 2px solid greenyellow;
+  height:auto;
 }
 
 .date {
