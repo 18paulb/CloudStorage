@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class='form'>
+    <div class="form">
       <input v-model='name' placeholder='Name'>
       <p>{{name}}</p> <!--Testing-->
       <br/>
@@ -12,14 +12,11 @@
       <button v-on:click='getDate()'>Get Date</button>
       <button @click='upload()'>Upload</button>
     </div>
-     
-    <br/>
 
+    <br/>
     <div class='journalContainer'>  <!--Make a v-for to iterate through journals array-->
       <JournalEntry :name='name' :content='content' :date='date'/>
     </div>
-
-
   </div>
 
 
@@ -59,13 +56,14 @@ export default {
     },
 
     async upload() {
+      console.log("tryna upload");
       try {
         let journalEntry = await axios.post('/api/entries', {
         name: this.name,
         content: this.content,
         date: this.date,
       })
-
+      console.log("???")
       this.currEntry = journalEntry
 
       } catch (error) {

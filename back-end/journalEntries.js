@@ -18,7 +18,6 @@ router.post('/api/entries', async (req, res) => {
     content: req.body.content,
     date: req.body.date,
     });
-
     await entry.save();
     res.send(entry);
 
