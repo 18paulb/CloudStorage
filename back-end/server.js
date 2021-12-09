@@ -119,7 +119,6 @@ app.post("/api/photos", upload.single('photo'), async (req, res) => {
     title: req.body.title,
     description: req.body.description,
   });
-  console.log(photo.description);
   try {
     await photo.save();
     return res.sendStatus(200);
@@ -135,7 +134,6 @@ app.get("/api/photos", async (req, res) => {
     let photos = await Photo.find().sort({
       created: -1
     });
-    console.log(photos);
     return res.send(photos);
   } catch (error) {
     console.log(error);
@@ -143,12 +141,26 @@ app.get("/api/photos", async (req, res) => {
   }
 });
 
-app.delete('/api/photos/:id', async (req, res) => {
-  console.log("made it to delete");
+app.delete('/api/photo/:id', async (req, res) => {
   try {
     await Photo.deleteOne({
       _id: req.params.id
     });
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+app.put('/api/photo/:id', async (req, res) => {
+  try {
+    let photo = await Photo.findOne({
+      _id: req.params.id
+    });
+    photo.title = req.body.title;
+    photo.description = req.body.description;
+    photo.save();
     res.sendStatus(200);
   } catch (error) {
     console.log(error);

@@ -1,31 +1,26 @@
 <template>
   <div class="content">
-    <div v-for="photo in photos" :key="photo.id" class="imageBox">
-      <h2>TITLE: {{photo.title}} ID:{{photo.id}} DATE: {{photo.created}}</h2>
+    <h2>{{photo.title}}, from {{formatDate(photo.created)}}</h2>
+    <div class="img-contain">
       <img :src="photo.path"/>
-      <br>
-      <button @click="deletePhoto(photo)">DELETE PHOTO</button>
     </div>
+    <br>
+    <p>{{photo.description}}</p>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import moment from 'moment'
 
 export default {
   name: "PhotoEntry",
   props: {
-    photos: Array,
+    photo: Object
   },
   methods: {
-    async deletePhoto(photo) {
-      try {
-        await axios.delete("api/photo/" + photo._id);
-        //this.getPhotos();
-      } catch(error) {
-        console.log(error);
-      }
-    }
+    formatDate(date) {
+        return moment(date).format('d MMMM YYYY');
+    },
   }
 }
 </script>
@@ -36,8 +31,9 @@ export default {
   width: 100%;
   align-content: center;
   flex-direction: column;
+  justify-content: center;
 }
 img {
-  width: 60%;
+  width: 40%;
 }
 </style>
