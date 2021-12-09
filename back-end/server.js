@@ -106,27 +106,6 @@ app.put('/api/entries/:id', async (req, res) => {
 });
 
 //// PHOTO SECTION ////
-// upload photo
-/*app.post("/", upload.single('photo'), async (req, res) => {
-  // check parameters
-  if (!req.file) {
-    return res.status(400).send({
-      message: "Must upload a file."
-    });
-  }
-  const photo = new Photo({
-    path: "/images/" + req.file.filename,
-    title: req.body.title,
-    description: req.body.description
-  });
-  try {
-    await photo.save();
-    return res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    return res.sendStatus(500);
-  }
-});*/
 
 app.post("/api/photos", upload.single('photo'), async (req, res) => {
   // check parameters
@@ -155,7 +134,8 @@ app.get("/api/photos", async (req, res) => {
   try {
     let photos = await Photo.find().sort({
       created: -1
-    })
+    });
+    console.log(photos);
     return res.send(photos);
   } catch (error) {
     console.log(error);
@@ -163,18 +143,18 @@ app.get("/api/photos", async (req, res) => {
   }
 });
 
-app.get('api/photos/:id', async (req, res) => {
+app.delete('/api/photos/:id', async (req, res) => {
+  console.log("made it to delete");
   try {
-    let photo = await Photo.findById({
+    await Photo.deleteOne({
       _id: req.params.id
-    })
-    return res.send(photo);
-  } catch(error) {
+    });
+    res.sendStatus(200);
+  } catch (error) {
     console.log(error);
-    return res.sendStatus(500);
+    res.sendStatus(500);
   }
 });
-
 
 /*
 

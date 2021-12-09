@@ -28,7 +28,6 @@ import axios from 'axios'
 import PhotoEntry from '../components/PhotoEntry.vue'
 
 export default {
-
   data() {
     return {
       title: "",
@@ -47,7 +46,7 @@ export default {
   },
   methods: {
     fileChanged(event) {
-      this.file = event.target.files[0]
+      this.file = event.target.files[0];
     },
     async upload() {
       try {
@@ -71,6 +70,7 @@ export default {
       try {
         let response = await axios.get("/api/photos");
         this.photos = response.data;
+        console.log(response.data);
       } catch(error) {
         console.log(error);
       }
