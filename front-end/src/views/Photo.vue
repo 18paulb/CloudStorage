@@ -18,9 +18,11 @@
       <h2>{{addItem.title}}</h2>
       <img :src='addItem.path'/>
     </div>
-    <div v-for="photo in photos" :key="photo.id">
-      <photo-entry :photo="photo"/>
-      <button @click="deletePhoto(photo)">DELETE PHOTO</button>
+    <div class="photo-container">
+      <div v-for="photo in photos" :key="photo.id" class="photoshow">
+        <photo-entry :photo="photo"/>
+        <button @click="deletePhoto(photo)">DELETE PHOTO</button>
+      </div>
     </div>
   </div>
 
@@ -55,7 +57,9 @@ export default {
       try {
         const formData = new FormData();
         console.log(this.description, " is the current description");
-        formData.append('photo', this.file, this.description, this.file.name);
+        formData.append('photo', this.file, this.file.name);
+        formData.append('title', this.title);
+        formData.append('description', this.description);
         await axios.post('api/photos', formData);
       } catch (error) {
         console.log(error);
@@ -90,3 +94,21 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+
+.photo-container {
+  display: flex;
+  width: 100%;
+  align-content: center;
+  justify-content: center;
+}
+
+.photoshow {
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+</style>

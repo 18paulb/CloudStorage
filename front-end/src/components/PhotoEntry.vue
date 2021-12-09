@@ -1,11 +1,16 @@
 <template>
-  <div class="content">\
-    <h2>TITLE: {{photo.title}} ID:{{photo.id}} DATE: {{photo.created}}</h2>
-    <img :src="photo.path"/>
+  <div class="content">
+    <h2>{{photo.title}}, from {{formatDate(photo.created)}}</h2>
+    <div class="img-contain">
+      <img :src="photo.path"/>
+    </div>
+    <br>
+    <p>{{photo.description}}</p>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 
 export default {
   name: "PhotoEntry",
@@ -13,7 +18,9 @@ export default {
     photo: Object
   },
   methods: {
-    
+    formatDate(date) {
+        return moment(date).format('d MMMM YYYY');
+    },
   }
 }
 </script>
@@ -24,8 +31,9 @@ export default {
   width: 100%;
   align-content: center;
   flex-direction: column;
+  justify-content: center;
 }
 img {
-  width: 60%;
+  width: 40%;
 }
 </style>
