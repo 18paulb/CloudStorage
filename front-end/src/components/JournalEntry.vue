@@ -53,15 +53,18 @@ export default {
 .name {
   display: flex;
   justify-content: center;
+  padding: 5px;
 }
 
 .content {
   display: flex;
   height:auto;
+  padding:10px;
 }
 
 .date {
   display: flex;
+  padding: 5px;
 }
 
 textarea {

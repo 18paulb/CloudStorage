@@ -10,6 +10,7 @@
       <button v-on:click='getDate()' @click='upload()'>Upload</button>
     </div>
 
+
     <br/>
 
     <div class='journalContainer'>
@@ -54,6 +55,7 @@ export default {
 
   data() {
     return {
+
       journals: [],
       name: '',
 
