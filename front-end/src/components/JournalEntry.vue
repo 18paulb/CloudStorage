@@ -2,7 +2,7 @@
   <div>
     <div class='reviewContainer'>
       <div class='name'>
-        <p>{{name}}</p>
+        <span>{{name}}</span>
         <!--<input class='edit' v-model='newName' placeholder='Name'>-->
       </div>
       <div class='content'>
@@ -46,7 +46,7 @@ export default {
   display: flex;
   background-color: lightblue;
   width: 700px;
-  border: 2px solid orange;
+  border: 2px solid black;
   flex-direction: column;
 }
 

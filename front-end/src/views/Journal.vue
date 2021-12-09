@@ -8,7 +8,6 @@
       <textarea v-model='content' placeholder='Journal Entry' rows='3' cols='70'></textarea>
       <p></p>
       <button v-on:click='getDate()' @click='upload()'>Upload</button>
-      <button v-on:click='getAllJournals()'>Get</button>
     </div>
 
     <br/>
@@ -24,8 +23,8 @@
         </div>
         -->
         <div class="buttons">
-          <button class="function-button" @click="deleteJournal(journal)" v-on:click='getAllJournals()'>DELETE PHOTO</button>
-          <button class="function-button" @click="edit()" v-on:click='getAllJournals()'>EDIT PHOTO</button>
+          <button class="function-button" @click="deleteJournal(journal)" v-on:click='getAllJournals()'>DELETE JOURNAL</button>
+          <button class="function-button" @click="edit()" v-on:click='getAllJournals()'>EDIT JOURNAL</button>
         </div>
         <div v-if="editing" class="edit-submit">
           <form>
@@ -174,7 +173,7 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
-  border: 1px solid purple;
+  /*border: 1px solid purple;*/
   flex-direction: column;
 }
 
@@ -182,7 +181,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid green;
+  /*border: 3px solid green;*/
   flex-direction: column;
   margin-bottom: 100px;
 }
@@ -194,6 +193,7 @@ export default {
   margin-left: 30px;
   margin-right: 30px;
   margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .edit-submit {
@@ -201,6 +201,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  background-color: darkcyan;
+  background-color: lightblue;
 }
 </style>
