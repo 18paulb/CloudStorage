@@ -72,8 +72,8 @@ export default {
         content: this.content,
         date: this.date,
       })
-      console.log("???")
-      this.currEntry = journalEntry
+      this.currEntry = journalEntry;
+      console.log(journalEntry);
 
       } catch (error) {
         console.log(error)

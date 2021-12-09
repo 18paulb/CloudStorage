@@ -106,19 +106,20 @@ app.put('/api/entries/:id', async (req, res) => {
 });
 
 //// PHOTO SECTION ////
-// upload photo
-/*app.post("/", upload.single('photo'), async (req, res) => {
+
+app.post("/api/photos", upload.single('photo'), async (req, res) => {
   // check parameters
-  if (!req.file) {
+  if (!req.file)
     return res.status(400).send({
       message: "Must upload a file."
     });
-  }
+  console.log(req.body.description, " was received from web");
   const photo = new Photo({
     path: "/images/" + req.file.filename,
     title: req.body.title,
-    description: req.body.description
+    description: req.body.description,
   });
+  console.log(photo.description);
   try {
     await photo.save();
     return res.sendStatus(200);
@@ -126,22 +127,6 @@ app.put('/api/entries/:id', async (req, res) => {
     console.log(error);
     return res.sendStatus(500);
   }
-});*/
-
-app.post('/api/photos', upload.single('photo'), async (req, res) => {
-  console.log("trying to post a photo");
-  const photo = new Photo({
-    path: "/images/" + req.file.filename,
-    title: req.body.title,
-    description: req.body.description,
-  });
-  // Just a safety check
-  if (!req.file) {
-    return res.sendStatus(400);
-  }
-  res.send({
-    path: "/images/" + req.file.filename
-  });
 });
 
 // get all photos
@@ -149,7 +134,8 @@ app.get("/api/photos", async (req, res) => {
   try {
     let photos = await Photo.find().sort({
       created: -1
-    })
+    });
+    console.log(photos);
     return res.send(photos);
   } catch (error) {
     console.log(error);
@@ -157,18 +143,18 @@ app.get("/api/photos", async (req, res) => {
   }
 });
 
-app.get('api/photos/:id', async (req, res) => {
+app.delete('/api/photos/:id', async (req, res) => {
+  console.log("made it to delete");
   try {
-    let photo = await Photo.findById({
+    await Photo.deleteOne({
       _id: req.params.id
-    })
-    return res.send(photo);
-  } catch(error) {
+    });
+    res.sendStatus(200);
+  } catch (error) {
     console.log(error);
-    return res.sendStatus(500);
+    res.sendStatus(500);
   }
 });
-
 
 /*
 
