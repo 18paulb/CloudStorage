@@ -17,10 +17,25 @@
       <div class='journal' v-for='journal in journals' :key='journal._id'>
         <JournalEntry :name='journal.name' :content='journal.content' :date='journal.date'/>
         <br/>
+        <!--
         <div>
           <button v-on:click='deleteJournal(journal)' @click='getAllJournals()'>Delete</button>
           <button v-on:click='edit(journal)' @click='getAllJournals()'>Edit</button>
         </div>
+        -->
+        <div class="buttons">
+          <button class="function-button" @click="deleteJournal(journal)" v-on:click='getAllJournals()'>DELETE PHOTO</button>
+          <button class="function-button" @click="edit()" v-on:click='getAllJournals()'>EDIT PHOTO</button>
+        </div>
+        <div v-if="editing" class="edit-submit">
+          <form>
+            <input type="text" placeholder="New Name" v-model="journal.name">
+          </form>
+          <textarea placeholder="New Content" v-model="journal.content"></textarea>
+          <button class="function-button" @click="editJournal(journal)" v-on:click='edit()'>SUBMIT CHANGES</button>
+          <button class="function-button" @click="cancelEdit()" v-on:click='edit()'>CANCEL CHANGES</button>
+        </div>
+
       </div>
     </div>
 
@@ -42,10 +57,14 @@ export default {
     return {
       journals: [],
       name: '',
+
       content: '',
       date: '',
       findItem: null,
-      currEntry: null,
+
+      newName: '',
+      newContent: '',
+      editing: false,
     }
   },
 
@@ -115,18 +134,31 @@ export default {
     },
 
 //FIXME finish
-    async edit(item) {
+    async editJournal(item) {
       try {
         await axios.put('/api/entries/' + item._id, {
           name: item.name,
           content: item.content,
-          data: this.getDate(),
+          date: this.getDate(),
         })
 
       } catch (error) {
         console.log(error)
       }
-    }
+    },
+
+    edit() {
+      if(this.editing == true)
+        this.editing = false
+      else
+        this.editing = true;
+    },
+
+    async cancelEdit() {
+      this.newTitle = "";
+      this.newDescription = "";
+      this.getAllJournals();
+    },
 
 
     
@@ -153,5 +185,22 @@ export default {
   border: 3px solid green;
   flex-direction: column;
   margin-bottom: 100px;
+}
+
+
+.function-button {
+  width: fit-content;
+  padding: 12px;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-bottom: 20px;
+}
+
+.edit-submit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  background-color: darkcyan;
 }
 </style>
