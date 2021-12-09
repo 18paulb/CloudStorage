@@ -27,10 +27,10 @@
         </div>
         <div v-if="editing" class="edit-submit">
           <form>
-            <input type="text" placeholder="New Title" v-model="newTitle">
+            <input type="text" placeholder="New Title" v-model="photo.title">
           </form>
-          <textarea placeholder="New Description" v-model="newDescription"></textarea>
-          <button class="function-button" @click="editPhoto(photo, newTitle, newDescription)">SUBMIT CHANGES</button>
+          <textarea placeholder="New Description" v-model="photo.description"></textarea>
+          <button class="function-button" @click="editPhoto(photo)">SUBMIT CHANGES</button>
           <button class="function-button" @click="cancelEdit()">CANCEL CHANGES</button>
         </div>
       </div>
@@ -99,11 +99,11 @@ export default {
         console.log(error);
       }
     },
-    async editPhoto(photo, title, description) {
+    async editPhoto(photo) {
       try {
         await axios.put("/api/photo/" + photo._id, {
-          title: title,
-          description: description
+          title: photo.title,
+          description: photo.description
         });
         //more efficient way to do this?
         this.getPhotos();
@@ -113,12 +113,15 @@ export default {
       }
     },
     async cancelEdit() {
-      newTitle = "";
-      newDescription = "";
+      this.newTitle = "";
+      this.newDescription = "";
       this.getPhotos();
     },
     edit() {
-      this.editing = true;
+      if(this.editing == true)
+        this.editing = false
+      else
+        this.editing = true;
     }
   },
 }
@@ -147,13 +150,15 @@ export default {
   padding: 12px;
   margin-left: 30px;
   margin-right: 30px;
+  margin-bottom: 20px;
 }
 
-.submit-edit {
+.edit-submit {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
+  background-color: darkcyan;
 }
 
 textarea {
