@@ -2,12 +2,12 @@
   <div>
     <div class='reviewContainer'>
       <div class='name'>
-        <!--<p>{{name}}</p> -->
-        <input class='edit' v-model='name' placeholder='Name'>
+        <p>{{name}}</p>
+        <!--<input class='edit' v-model='newName' placeholder='Name'>-->
       </div>
       <div class='content'>
-        <!--<p>{{content}}</p>-->
-        <textarea class='edit' v-model='content' placeholder='Journal Entry' rows='3' cols='70'></textarea>
+        <p>{{content}}</p>
+        <!--<textarea class='edit' v-model='newContent' placeholder='Journal Entry' rows='3' cols='70'></textarea>-->
       </div>
       <div class='date'>
         <span>Posted: {{date}}</span>
@@ -27,9 +27,14 @@ export default {
     date: String,
   },
 
-  methods: {
-
+  data() {
+    return {
+      newName: '',
+      newContent: '',
+      newDate: '',
+    }
   },
+
 
 }
 
@@ -40,7 +45,7 @@ export default {
 .reviewContainer {
   display: flex;
   background-color: lightblue;
-  width: 100%;
+  width: 700px;
   border: 2px solid orange;
   flex-direction: column;
 }
@@ -59,10 +64,15 @@ export default {
   display: flex;
 }
 
+textarea {
+  height: auto;
+}
+
 .edit {
   background-color: lightblue;
   width: 100%;
   border: none;
+
 }
 
 </style>;
