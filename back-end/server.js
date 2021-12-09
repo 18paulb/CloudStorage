@@ -95,8 +95,8 @@ app.put('/api/entries/:id', async (req, res) => {
       _id: req.params.id,
     });
     entry.name = req.body.name
-    entry.content = req.body.description
-    entry.data = req.body.date
+    entry.content = req.body.content
+    entry.date = req.body.date
     entry.save()
     res.sendStatus(200);
   } catch (error) {

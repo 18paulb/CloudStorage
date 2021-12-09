@@ -2,13 +2,15 @@
   <div>
     <div class='reviewContainer'>
       <div class='name'>
-        <p>{{name}}</p>
+        <!--<p>{{name}}</p> -->
+        <input class='edit' v-model='name' placeholder='Name'>
       </div>
       <div class='content'>
-        <p>{{content}}</p>
+        <!--<p>{{content}}</p>-->
+        <textarea class='edit' v-model='content' placeholder='Journal Entry' rows='3' cols='70'></textarea>
       </div>
       <div class='date'>
-        <p>{{date}}</p>
+        <span>Posted: {{date}}</span>
       </div>
     </div>
   </div>
@@ -38,25 +40,29 @@ export default {
 .reviewContainer {
   display: flex;
   background-color: lightblue;
-  width: 500px;
+  width: 100%;
   border: 2px solid orange;
   flex-direction: column;
 }
 
 .name {
   display: flex;
-  border: 2px solid lightcoral;
+  justify-content: center;
 }
 
 .content {
-  display: inline-block;
-  border: 2px solid greenyellow;
+  display: flex;
   height:auto;
 }
 
 .date {
   display: flex;
-  border: 2px solid black;
 }
 
-</style>
+.edit {
+  background-color: lightblue;
+  width: 100%;
+  border: none;
+}
+
+</style>;

@@ -13,11 +13,15 @@
 
     <br/>
 
-    <div class='journalContainer' v-for='journal in journals' :key='journal._id'>
-      <JournalEntry :name='journal.name' :content='journal.content' :date='journal.date'/>
-      <p></p>
-      <button v-on:click='deleteJournal(journal)' @click='getAllJournals()'>Delete</button>
-      <button v-on:click='edit(journal)' @click='getAllJournals()'>Edit</button>
+    <div class='journalContainer'>
+      <div class='journal' v-for='journal in journals' :key='journal._id'>
+        <JournalEntry :name='journal.name' :content='journal.content' :date='journal.date'/>
+        <br/>
+        <div>
+          <button v-on:click='deleteJournal(journal)' @click='getAllJournals()'>Delete</button>
+          <button v-on:click='edit(journal)' @click='getAllJournals()'>Edit</button>
+        </div>
+      </div>
     </div>
 
 
@@ -110,9 +114,14 @@ export default {
       }
     },
 
+//FIXME finish
     async edit(item) {
       try {
-        await axios.put('/api/entries/' + item._id)
+        await axios.put('/api/entries/' + item._id, {
+          name: item.name,
+          content: item.content,
+          data: this.getDate(),
+        })
 
       } catch (error) {
         console.log(error)
@@ -129,9 +138,20 @@ export default {
 <style scoped>
 
 .journalContainer {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-content: center;
   border: 1px solid purple;
+  flex-direction: column;
+}
+
+.journal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid green;
+  flex-direction: column;
+  margin-bottom: 100px;
 }
 </style>
