@@ -18,7 +18,10 @@
       <h2>{{addItem.title}}</h2>
       <img :src='addItem.path'/>
     </div>
-    <photo-entry :photos="photos"/>
+    <div v-for="photo in photos" :key="photo.id">
+      <photo-entry :photo="photo"/>
+      <button @click="deletePhoto(photo)">DELETE PHOTO</button>
+    </div>
   </div>
 
 </template>
@@ -58,19 +61,28 @@ export default {
         console.log(error);
       }
     },
-    async delete(photo) {
-      try {
-        await axios.delete('/api/photos/' + photo._id);
-        return true;
-      } catch (error) {
-          console.log(error);
-        }
-    },
     async getPhotos() {
       try {
         let response = await axios.get("/api/photos");
         this.photos = response.data;
         console.log(response.data);
+      } catch(error) {
+        console.log(error);
+      }
+    },
+    async deletePhoto(photo) {
+      try {
+        await axios.delete("api/photo/" + photo._id);
+        this.getPhotos();
+      } catch(error) {
+        console.log(error);
+      }
+    },
+    async editPhoto(photo) {
+      try {
+        await axios.put("api/photo/" + photo._id);
+        //more efficient way to do this?
+        this.getPhotos();
       } catch(error) {
         console.log(error);
       }
