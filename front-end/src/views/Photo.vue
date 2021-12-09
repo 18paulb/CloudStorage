@@ -23,13 +23,22 @@
         <photo-entry :photo="photo"/>
         <div class="buttons">
           <button class="function-button" @click="deletePhoto(photo)">DELETE PHOTO</button>
-          <button class="function-button" @click="editPhoto(photo)">EDIT PHOTO</button>
+          <button class="function-button" @click="edit()">EDIT PHOTO</button>
+        </div>
+        <div v-if="editing" class="edit-submit">
+          <form>
+            <input type="text" placeholder="New Title" v-model="newTitle">
+          </form>
+          <textarea placeholder="New Description" v-model="newDescription"></textarea>
+          <button class="function-button" @click="editPhoto(photo, newTitle, newDescription)">SUBMIT CHANGES</button>
+          <button class="function-button" @click="cancelEdit()">CANCEL CHANGES</button>
         </div>
       </div>
     </div>
   </div>
 
-</template>
+</template> 
+
 
 <script>
 import axios from 'axios'
@@ -40,8 +49,11 @@ export default {
     return {
       title: "",
       description: "",
+      newDescription: "",
+      newTitle: "",
       file: null,
       url: "",
+      editing: false,
       addItem: null,
       photos: [],
     }
@@ -51,6 +63,7 @@ export default {
   },
   created() {
     this.getPhotos();
+    this.editing = false;
   },
   methods: {
     fileChanged(event) {
@@ -59,7 +72,6 @@ export default {
     async upload() {
       try {
         const formData = new FormData();
-        console.log(this.description, " is the current description");
         formData.append('photo', this.file, this.file.name);
         formData.append('title', this.title);
         formData.append('description', this.description);
@@ -74,6 +86,7 @@ export default {
         let response = await axios.get("/api/photos");
         this.photos = response.data;
         console.log(response.data);
+        this.editing = false;
       } catch(error) {
         console.log(error);
       }
@@ -86,14 +99,26 @@ export default {
         console.log(error);
       }
     },
-    async editPhoto(photo) {
+    async editPhoto(photo, title, description) {
       try {
-        await axios.put("api/photo/" + photo._id);
+        await axios.put("/api/photo/" + photo._id, {
+          title: title,
+          description: description
+        });
         //more efficient way to do this?
         this.getPhotos();
+        this.editing = false;
       } catch(error) {
         console.log(error);
       }
+    },
+    async cancelEdit() {
+      newTitle = "";
+      newDescription = "";
+      this.getPhotos();
+    },
+    edit() {
+      this.editing = true;
     }
   },
 }
@@ -122,5 +147,16 @@ export default {
   padding: 12px;
   margin-left: 30px;
   margin-right: 30px;
+}
+
+.submit-edit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+textarea {
+  width: 50%;
 }
 </style>
