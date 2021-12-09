@@ -9,7 +9,7 @@
 
 
     <div class="footer"> 
-      <h2><a class="github-link" href="https://github.com/katorade8/creativeproject3">github</a></h2>
+      <h2><a class="github-link" href="https://github.com/18paulb/CloudStorage">github</a></h2>
     </div>
 
   </div>
