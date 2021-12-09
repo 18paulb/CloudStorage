@@ -32,12 +32,25 @@ const journalEntrySchema = new mongoose.Schema({
   date: String,
 });
 
-const JournalEntryEntry = mongoose.model('JournalEntryEntry', journalEntrySchema);
+const JournalEntry = mongoose.model('JournalEntry', journalEntrySchema);
+
+const photoSchema = new mongoose.Schema({
+  path: String,
+  title: String,
+  description: String,
+  created: {
+    type: Date,
+    default: Date.now
+  },
+});
+
+const Photo = mongoose.model('Photo', photoSchema);
+
 
 //No idea but creates journal entry
 app.post('/api/entries', async (req, res) => {
   try {
-    let entry = new JournalEntryEntry({
+    let entry = new JournalEntry({
     name: req.body.name,
     content: req.body.content,
     date: req.body.date,
@@ -93,20 +106,8 @@ app.put('/api/entries/:id', async (req, res) => {
 });
 
 //// PHOTO SECTION ////
-const photoSchema = new mongoose.Schema({
-  path: String,
-  title: String,
-  description: String,
-  created: {
-    type: Date,
-    default: Date.now
-  },
-});
-
-const Photo = mongoose.model('Photo', photoSchema);
-
 // upload photo
-app.post("/", upload.single('photo'), async (req, res) => {
+/*app.post("/", upload.single('photo'), async (req, res) => {
   // check parameters
   if (!req.file) {
     return res.status(400).send({
@@ -125,10 +126,26 @@ app.post("/", upload.single('photo'), async (req, res) => {
     console.log(error);
     return res.sendStatus(500);
   }
+});*/
+
+app.post('/api/photos', upload.single('photo'), async (req, res) => {
+  console.log("trying to post a photo");
+  const photo = new Photo({
+    path: "/images/" + req.file.filename,
+    title: req.body.title,
+    description: req.body.description,
+  });
+  // Just a safety check
+  if (!req.file) {
+    return res.sendStatus(400);
+  }
+  res.send({
+    path: "/images/" + req.file.filename
+  });
 });
 
 // get all photos
-app.get("/", async (req, res) => {
+app.get("/api/photos", async (req, res) => {
   try {
     let photos = await Photo.find().sort({
       created: -1
@@ -140,7 +157,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get('/:id', async (req, res) => {
+app.get('api/photos/:id', async (req, res) => {
   try {
     let photo = await Photo.findById({
       _id: req.params.id
