@@ -38,6 +38,7 @@ const photoSchema = new mongoose.Schema({
   path: String,
   title: String,
   description: String,
+  editing: Boolean,
   created: {
     type: Date,
     default: Date.now
@@ -117,6 +118,7 @@ app.post("/api/photos", upload.single('photo'), async (req, res) => {
     path: "/images/" + req.file.filename,
     title: req.body.title,
     description: req.body.description,
+    editing: false
   });
   try {
     await photo.save();

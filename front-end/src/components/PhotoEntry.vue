@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <h2>{{photo.title}}, from {{formatDate(photo.created)}}</h2>
+    <h2>{{photo.title}}, {{formatDate(photo.created)}}</h2>
     <div class="img-contain">
       <img :src="photo.path"/>
     </div>
@@ -34,6 +34,6 @@ export default {
   justify-content: center;
 }
 img {
-  width: 40%;
+  width: 50%;
 }
 </style>

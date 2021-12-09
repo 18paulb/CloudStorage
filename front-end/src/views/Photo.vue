@@ -23,15 +23,17 @@
         <photo-entry :photo="photo"/>
         <div class="buttons">
           <button class="function-button" @click="deletePhoto(photo)">DELETE PHOTO</button>
-          <button class="function-button" @click="edit()">EDIT PHOTO</button>
+          <button class="function-button" @click="edit(photo)">EDIT PHOTO</button>
         </div>
-        <div v-if="editing" class="edit-submit">
+        <div v-if="photo.editing" class="edit-submit">
           <form>
             <input type="text" placeholder="New Title" v-model="photo.title">
+            <textarea placeholder="New Description" v-model="photo.description"></textarea>
           </form>
-          <textarea placeholder="New Description" v-model="photo.description"></textarea>
-          <button class="function-button" @click="editPhoto(photo)">SUBMIT CHANGES</button>
-          <button class="function-button" @click="cancelEdit()">CANCEL CHANGES</button>
+          <div class="changes">
+            <button class="function-button" @click="editPhoto(photo)">SUBMIT CHANGES</button>
+            <button class="function-button" @click="cancelEdit()">CANCEL CHANGES</button>
+          </div>
         </div>
       </div>
     </div>
@@ -49,11 +51,8 @@ export default {
     return {
       title: "",
       description: "",
-      newDescription: "",
-      newTitle: "",
       file: null,
       url: "",
-      editing: false,
       addItem: null,
       photos: [],
     }
@@ -85,8 +84,6 @@ export default {
       try {
         let response = await axios.get("/api/photos");
         this.photos = response.data;
-        console.log(response.data);
-        this.editing = false;
       } catch(error) {
         console.log(error);
       }
@@ -107,7 +104,7 @@ export default {
         });
         //more efficient way to do this?
         this.getPhotos();
-        this.editing = false;
+        photo.editing = false;
       } catch(error) {
         console.log(error);
       }
@@ -117,11 +114,16 @@ export default {
       this.newDescription = "";
       this.getPhotos();
     },
-    edit() {
-      if(this.editing == true)
-        this.editing = false
-      else
-        this.editing = true;
+    edit(photo) {
+      console.log("trying to edit");
+      console.log(photo.editing);
+      if(photo.editing == true) {
+        photo.editing = false
+        this.getPhotos();
+    }
+      else {
+        photo.editing = true;
+      }
     }
   },
 }
@@ -146,7 +148,7 @@ export default {
 }
 
 .function-button {
-  width: fit-content;
+  width: 100px;
   padding: 12px;
   margin-left: 30px;
   margin-right: 30px;
@@ -158,10 +160,21 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  background-color: darkcyan;
+}
+
+.edit-box {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+input {
+  padding: 10px;
 }
 
 textarea {
-  width: 50%;
+  padding: 10px;
+  width: 40%;
 }
 </style>
