@@ -3,13 +3,26 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/journal">Journals</router-link> |
-      <router-link to="/photo">Photos</router-link>
+      <router-link to="/photo">Photos</router-link> |
     </div>
     <router-view />
+
+
+    <div class="footer"> 
+      <h2><a class="github-link" href="https://github.com/katorade8/creativeproject3">github</a></h2>
+    </div>
+
   </div>
 </template>
 
 <style>
+
+#footer {
+  position: fixed;
+  bottom: 0;
+}
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -30,4 +43,21 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 98%;
+  height: 2.5rem;
+}
+
+.github-link:hover {
+
+  color: #42b983;
+}
+
+
 </style>
+
+
+

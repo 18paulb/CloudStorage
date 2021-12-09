@@ -2,21 +2,22 @@
   <div>
     <div class="form">
       <input v-model='name' placeholder='Name'>
-      <p>{{name}}</p> <!--Testing-->
       <br/>
       <label>Name</label>
       <p></p>
       <textarea v-model='content' placeholder='Journal Entry' rows='3' cols='70'></textarea>
-      <p>{{content}}</p> <!--Testing-->
       <p></p>
-      <button v-on:click='getDate()'>Get Date</button>
-      <button @click='upload()'>Upload</button>
+      <button v-on:click='getDate()' @click='upload()'>Upload</button>
+      <button v-on:clicl='getAllJournals()'>Get</button>
     </div>
 
     <br/>
-    <div class='journalContainer'>  <!--Make a v-for to iterate through journals array-->
-      <JournalEntry :name='name' :content='content' :date='date'/>
+
+    <div class='journalContainer' v-for='journal in journals' :key='journal.content'>
+      <JournalEntry :name='journal.name' :content='journal.content' :date='journal.date'/>
     </div>
+
+
   </div>
 
 
@@ -36,6 +37,7 @@ export default {
       name: '',
       content: '',
       date: '',
+      findItem: null,
       currEntry: null,
     }
   },
@@ -69,6 +71,13 @@ export default {
       } catch (error) {
         console.log(error)
       }
+
+      //Resets data
+      this.name = ''
+      this.content = ''
+      this.date = ''
+
+      //this.journals = this.getAllJournals()
     },
 
 
@@ -78,12 +87,21 @@ export default {
         if (allJournals.length === 0) {
           this.journals = null;
         } else {
-          this.journals = allJournals;
+          this.journals = allJournals.data;
+          console.log(this.journals)
         }
       } catch (error) {
         console.log(error)
       }
     },
+
+    async delete(item) {
+      try {
+        await axios.delete('/api/entries/' + item._id);
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
 
     
